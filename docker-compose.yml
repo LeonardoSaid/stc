@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  accounts-api:
+    build:
+      context: ./accounts
+      dockerfile: Dockerfile
+    container_name: login-api
+    depends_on:
+      - database
+    networks:
+      - stc
+    ports:
+      - "3333:3333"
+    env_file:
+       - ./accounts/.env
+    restart: always
+    command: server
+  database:
+    image: 'postgres:9.6.6'
+    environment:
+      POSTGRES_USER: stchallenge
+      POSTGRES_PASSWORD: stchallenge
+      POSTGRES_DB: stchallenge
+    networks:
+      - stc
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    container_name: stc-db
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    command: [ "-path", "/migrations", "-database",  "postgres://stchallenge:stchallenge@database:5432/stchallenge?sslmode=disable", "-verbose", "up" ]
+    networks:
+      - stc
+    depends_on:
+      database:
+        condition: service_healthy
+    links:
+      - database
+networks:
+  stc:
+    name: stc
