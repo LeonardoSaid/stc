@@ -11,6 +11,11 @@ type CreateAccountDTO struct {
 	Secret string `json:"secret"`
 }
 
+type UpdateBalanceDTO struct {
+	ID      string `param:"id"`
+	Balance int64  `json:"balance"`
+}
+
 func (acc *CreateAccountDTO) ToEntity() (to domain.Account, err error) {
 	err = mapstructure.Decode(acc, &to)
 	if err != nil {
