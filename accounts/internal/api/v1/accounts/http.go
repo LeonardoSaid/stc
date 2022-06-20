@@ -1,11 +1,12 @@
 package accounts
 
 import (
+	"net/http"
+
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/leonardosaid/stc/accounts/internal/usecases"
-	"net/http"
 )
 
 type Handler struct {
@@ -51,7 +52,7 @@ func (h *Handler) Create(c echo.Context) error {
 		return err
 	}
 
-	return c.NoContent(http.StatusNoContent)
+	return c.NoContent(http.StatusCreated)
 }
 
 func (h *Handler) FindBalanceByID(c echo.Context) error {

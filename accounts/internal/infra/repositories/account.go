@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/leonardosaid/stc/accounts/internal/domain"
@@ -39,8 +38,6 @@ func (a *AccountRepositoryImpl) Create(ctx context.Context, i *domain.Account) (
 func (a *AccountRepositoryImpl) FindByID(ctx context.Context, id uuid.UUID) (*domain.Account, error) {
 	row := &domain.Account{}
 	err := a.DB.NewSelect().Model(row).Where("id = ?", id.String()).Scan(ctx)
-	fmt.Println(row)
-	fmt.Println(err)
 	return row, err
 }
 
@@ -51,6 +48,10 @@ func (a *AccountRepositoryImpl) FindByCPF(ctx context.Context, cpf string) (*dom
 }
 
 func (a *AccountRepositoryImpl) UpdateBalanceByID(ctx context.Context, i *domain.Account) error {
-	_, err := a.DB.NewUpdate().Model(i).Column("balance").Where("id = ?", i.ID).Exec(ctx)
+	err := a.DB.NewSelect().Model(i).Where("id = ?", i.ID).Scan(ctx)
+	if err != nil {
+		return err
+	}
+	_, err = a.DB.NewUpdate().Model(i).Column("balance").Where("id = ?", i.ID).Exec(ctx)
 	return err
 }
