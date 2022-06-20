@@ -12,7 +12,9 @@ func routes(e *echo.Echo, a accounts.Handler) {
 	g := e.Group("account-management/v1")
 
 	g.GET("/accounts", a.List)
-	g.GET("/accounts/:account_id/balance", a.FindBalanceByID)
+	g.GET("/accounts/:id", a.FindByCPF)
+	g.GET("/accounts/:id/balance", a.FindBalanceByID)
+	g.PATCH("/accounts/:id", a.UpdateBalanceByID)
 	g.POST("/accounts", a.Create)
 }
 

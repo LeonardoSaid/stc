@@ -1,11 +1,11 @@
 package accounts
 
 import (
-	"net/http"
-
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/leonardosaid/stc/accounts/internal/usecases"
+	"net/http"
 )
 
 type Handler struct {
@@ -75,4 +75,49 @@ func (h *Handler) FindBalanceByID(c echo.Context) error {
 	out := ToBalanceDTO(amount)
 
 	return c.JSON(http.StatusOK, out)
+}
+
+func (h *Handler) FindByCPF(c echo.Context) error {
+	var cpf string
+
+	if err := echo.PathParamsBinder(c).String("id", &cpf).BindError(); err != nil {
+		return err
+	}
+
+	acc, err := h.UseCase.FindByCPF(c.Request().Context(), cpf)
+	if err != nil {
+		return err
+	}
+
+	out, err := ToAccountDTO(acc)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, out)
+}
+
+func (h *Handler) UpdateBalanceByID(c echo.Context) error {
+	in := new(UpdateBalanceDTO)
+
+	if err := c.Bind(in); err != nil {
+		return err
+	}
+
+	id, err := uuid.Parse(in.ID)
+	if err != nil {
+		return err
+	}
+
+	acc := &domain.Account{
+		ID:      id,
+		Balance: in.Balance,
+	}
+
+	err = h.UseCase.UpdateBalanceByID(c.Request().Context(), acc)
+	if err != nil {
+		return err
+	}
+
+	return c.NoContent(http.StatusOK)
 }

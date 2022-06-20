@@ -12,6 +12,8 @@ type AccountUseCase interface {
 	List(context.Context) ([]domain.Account, error)
 	Create(context.Context, *domain.Account) error
 	FindBalanceByID(context.Context, uuid.UUID) (int64, error)
+	FindByCPF(context.Context, string) (*domain.Account, error)
+	UpdateBalanceByID(context.Context, *domain.Account) error
 }
 
 type AccountUseCaseImpl struct {
@@ -47,4 +49,12 @@ func (a *AccountUseCaseImpl) FindBalanceByID(ctx context.Context, id uuid.UUID) 
 	}
 
 	return acc.Balance, nil
+}
+
+func (a *AccountUseCaseImpl) FindByCPF(ctx context.Context, cpf string) (*domain.Account, error) {
+	return a.Repository.FindByCPF(ctx, cpf)
+}
+
+func (a *AccountUseCaseImpl) UpdateBalanceByID(ctx context.Context, acc *domain.Account) error {
+	return a.Repository.UpdateBalanceByID(ctx, acc)
 }
