@@ -16,23 +16,8 @@ lint: ## Run linter
 copy-env: ## Copy .env.example to .env
 	cp .env.sample .env
 
-start: ## Start pix-dict service and Its dependencies
-	docker-compose up -d --build # Run docker-compose
-
 mock-generate: ## Generate mocks
 	go mod vendor
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --all --dir ./internal/domain --case underscore --keeptree
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --dir /app/vendor/github.com/hashlab/banking-accounts/api/infra/grpc/v1 --case underscore --name AccountServiceClient --output ./mocks/client
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --dir /app/vendor/github.com/hashlab/banking-company-api/api/v1/genpb --case underscore --name CompanyServiceClient --output ./mocks/client
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery  --dir /app/pkg/btg --case underscore --name=ClientBTG --output ./mocks/pkg
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery  --dir /app/pkg/slack --case underscore --name=Slack --output ./mocks/pkg
-	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery  --dir /app/pkg/cloudstorage --case underscore --name=Storage --output ./mocks/pkg
-
-migrate: ## Run database migrations
-	migrate -path migrations/ -database postgres://dict_user:D1ct@localhost:5432/pix_dict?sslmode=disable up
-
-migrate-create: ## Create migration file
-	migrate create -ext sql -dir migrations -tz America/Sao_Paulo $(file_name)
 
 format: ## Format code
 	docker run --rm -ti \

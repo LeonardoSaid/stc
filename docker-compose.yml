@@ -5,7 +5,7 @@ services:
     build:
       context: ./accounts
       dockerfile: Dockerfile
-    container_name: login-api
+    container_name: accounts-api
     depends_on:
       - database
     networks:
@@ -14,6 +14,34 @@ services:
       - "3333:3333"
     env_file:
        - ./accounts/.env
+    restart: always
+    command: server
+  login-api:
+    build:
+      context: ./login
+      dockerfile: Dockerfile
+    container_name: login-api
+    networks:
+      - stc
+    ports:
+      - "3335:3335"
+    env_file:
+      - ./login/.env
+    restart: always
+    command: server
+  transfers-api:
+    build:
+      context: ./transfers
+      dockerfile: Dockerfile
+    container_name: transfers-api
+    depends_on:
+      - database
+    networks:
+      - stc
+    ports:
+      - "3334:3334"
+    env_file:
+      - ./transfers/.env
     restart: always
     command: server
   database:
