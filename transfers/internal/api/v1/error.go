@@ -3,18 +3,41 @@ package v1
 import (
 	"net/http"
 
+	"github.com/leonardosaid/stc/accounts/internal/domain"
+
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
+const (
+	InternalErrorMessage = "internal service error"
+)
+
+type ErrorMessage struct {
+	Value string `json:"error"`
+}
+
 func DefaultHTTPErrorHandler(logger *zap.Logger) echo.HTTPErrorHandler {
 	return func(err error, c echo.Context) {
-		code := http.StatusInternalServerError
-		if he, ok := err.(*echo.HTTPError); ok {
-			code = he.Code
-		}
 		logger.Error("Error", zap.Error(err))
-		if err := c.NoContent(code); err != nil {
+		var code int
+		message := &ErrorMessage{}
+
+		switch err.(type) {
+		case *domain.ValidationError:
+			message.Value = err.Error()
+			code = http.StatusBadRequest
+		case *domain.InsufficientFundsError, *domain.UnprocessableError, *domain.AccountServiceError:
+			message.Value = err.Error()
+			code = http.StatusUnprocessableEntity
+		case *domain.NotFoundError:
+			code = http.StatusNotFound
+		default:
+			message.Value = InternalErrorMessage
+			code = http.StatusInternalServerError
+		}
+
+		if err := c.JSON(code, message); err != nil {
 			logger.Error("Error to return", zap.Error(err))
 		}
 	}

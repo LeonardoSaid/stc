@@ -1,9 +1,10 @@
 package config
 
 import (
+	"reflect"
+
 	"github.com/google/uuid"
 	"github.com/mitchellh/mapstructure"
-	"reflect"
 )
 
 func CustomDecode(input, output interface{}) error {

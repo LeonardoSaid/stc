@@ -1,7 +1,6 @@
 package login
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -34,8 +33,6 @@ func (h *Handler) Login(c echo.Context) error {
 	}
 
 	out := ResponseDTO{Token: resp}
-
-	fmt.Println(fmt.Sprintf("%+v", resp))
 
 	return c.JSON(http.StatusOK, out)
 }

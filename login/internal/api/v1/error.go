@@ -1,8 +1,9 @@
 package v1
 
 import (
-	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"net/http"
+
+	"github.com/leonardosaid/stc/accounts/internal/domain"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -31,7 +32,7 @@ func DefaultHTTPErrorHandler(logger *zap.Logger) echo.HTTPErrorHandler {
 			code = http.StatusForbidden
 		case *domain.NotFoundError:
 			code = http.StatusNotFound
-		case domain.UnprocessableError:
+		case *domain.UnprocessableError:
 			message.Value = err.Error()
 			code = http.StatusUnprocessableEntity
 		default:

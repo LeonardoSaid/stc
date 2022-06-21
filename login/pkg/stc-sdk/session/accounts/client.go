@@ -3,10 +3,11 @@ package accounts
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/config"
 	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/request"
 	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/session/accounts/payload"
-	"net/http"
 )
 
 type accountClient struct {

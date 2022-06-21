@@ -85,7 +85,16 @@ func (a *AccountUseCaseImpl) FindByCPF(ctx context.Context, cpf string) (*domain
 }
 
 func (a *AccountUseCaseImpl) UpdateBalanceByID(ctx context.Context, acc *domain.Account) error {
-	err := a.Repository.UpdateBalanceByID(ctx, acc)
+	_, err := a.Repository.FindByID(ctx, acc.ID)
+	if err != nil {
+		message := err.Error()
+		if strings.Contains(message, "no rows in result set") {
+			return &domain.NotFoundError{Message: message}
+		}
+		return &domain.UnprocessableError{Message: message}
+	}
+
+	err = a.Repository.UpdateBalanceByID(ctx, acc)
 	if err != nil {
 		message := err.Error()
 		if strings.Contains(message, "sql: no rows in result set") {

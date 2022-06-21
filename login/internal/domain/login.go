@@ -1,9 +1,10 @@
 package domain
 
 import (
+	"regexp"
+
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/golang-jwt/jwt"
-	"regexp"
 )
 
 type LoginToken struct {

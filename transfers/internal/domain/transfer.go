@@ -1,11 +1,12 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/go-ozzo/ozzo-validation/is"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/uptrace/bun"
-	"time"
 )
 
 type Transfer struct {

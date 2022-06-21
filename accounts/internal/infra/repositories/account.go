@@ -48,10 +48,6 @@ func (a *AccountRepositoryImpl) FindByCPF(ctx context.Context, cpf string) (*dom
 }
 
 func (a *AccountRepositoryImpl) UpdateBalanceByID(ctx context.Context, i *domain.Account) error {
-	err := a.DB.NewSelect().Model(i).Where("id = ?", i.ID).Scan(ctx)
-	if err != nil {
-		return err
-	}
-	_, err = a.DB.NewUpdate().Model(i).Column("balance").Where("id = ?", i.ID).Exec(ctx)
+	_, err := a.DB.NewUpdate().Model(i).Column("balance").Where("id = ?", i.ID).Exec(ctx)
 	return err
 }

@@ -1,6 +1,8 @@
 package v1
 
 import (
+	"os"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/leonardosaid/stc/accounts/internal/api/v1/transfers"
@@ -9,7 +11,6 @@ import (
 	"github.com/leonardosaid/stc/accounts/internal/infra/repositories"
 	"github.com/leonardosaid/stc/accounts/internal/usecases"
 	"go.uber.org/fx"
-	"os"
 )
 
 func routes(e *echo.Echo, t transfers.Handler) {

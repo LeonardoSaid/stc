@@ -2,11 +2,12 @@ package usecases
 
 import (
 	"context"
+	"os"
+
 	"github.com/golang-jwt/jwt"
 	"github.com/leonardosaid/stc/accounts/internal/clients"
 	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/leonardosaid/stc/accounts/pkg/crypt"
-	"os"
 )
 
 type LoginUseCase interface {

@@ -1,10 +1,11 @@
 package clients
 
 import (
-	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/request"
-	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/session/accounts"
 	"net/http"
 	"os"
+
+	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/request"
+	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/session/accounts"
 )
 
 type ServiceClients interface {

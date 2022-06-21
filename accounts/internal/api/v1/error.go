@@ -28,7 +28,7 @@ func DefaultHTTPErrorHandler(logger *zap.Logger) echo.HTTPErrorHandler {
 			code = http.StatusBadRequest
 		case *domain.NotFoundError:
 			code = http.StatusNotFound
-		case domain.UnprocessableError:
+		case *domain.UnprocessableError:
 			message.Value = err.Error()
 			code = http.StatusUnprocessableEntity
 		default:

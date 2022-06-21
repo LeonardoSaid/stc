@@ -1,10 +1,11 @@
 package transfers
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/mitchellh/mapstructure"
-	"time"
 )
 
 type ResponseDTO struct {
