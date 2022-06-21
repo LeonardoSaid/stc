@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "84cfbe8b-eaf0-4c26-9228-4b2fc5195f4e",
+		"name": "STC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19752119"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accounts_host}}/account-management/v1/accounts",
+							"host": [
+								"{{accounts_host}}"
+							],
+							"path": [
+								"account-management",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Balance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accounts_host}}/account-management/v1/accounts/:id/balance",
+							"host": [
+								"{{accounts_host}}"
+							],
+							"path": [
+								"account-management",
+								"v1",
+								"accounts",
+								":id",
+								"balance"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "25e9df9b-5953-4f3b-996b-b58a4492c5b8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Teste\",\n    \"cpf\": \"asd\",\n    \"secret\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{accounts_host}}/account-management/v1/accounts",
+							"host": [
+								"{{accounts_host}}"
+							],
+							"path": [
+								"account-management",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Balance",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"balance\": 1111111\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{accounts_host}}/account-management/v1/accounts/:id",
+							"host": [
+								"{{accounts_host}}"
+							],
+							"path": [
+								"account-management",
+								"v1",
+								"accounts",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "25e9df9b-5953-4f3b-996b-b58a4492c5b1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by CPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accounts_host}}/account-management/v1/accounts/:cpf",
+							"host": [
+								"{{accounts_host}}"
+							],
+							"path": [
+								"account-management",
+								"v1",
+								"accounts",
+								":cpf"
+							],
+							"variable": [
+								{
+									"key": "cpf",
+									"value": "00000000192"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();",
+									"",
+									"pm.environment.set(\"token\", jsonResponse.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"00000000193\",\n    \"secret\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{login_host}}/login-management/v1/login",
+							"host": [
+								"{{login_host}}"
+							],
+							"path": [
+								"login-management",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfers",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{transfers_host}}/transfer-management/v1/transfers",
+							"host": [
+								"{{transfers_host}}"
+							],
+							"path": [
+								"transfer-management",
+								"v1",
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"account_destination_id\": \"179bf3d9-4d18-4f64-a1e3-a206f4c0aa35\",\n    \"amount\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{transfers_host}}/transfer-management/v1/transfers",
+							"host": [
+								"{{transfers_host}}"
+							],
+							"path": [
+								"transfer-management",
+								"v1",
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
