@@ -18,6 +18,10 @@ copy-env: ## Copy .env.example to .env
 
 mock-generate: ## Generate mocks
 	go mod vendor
+	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --all --dir ./internal/infra/repositories --case underscore
+	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --all --dir ./internal/usecases --case underscore
+	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery  --dir /app/pkg/stc-sdk --case underscore --all --output ./mocks/pkg
+	docker run --rm -v "$(PWD):/app" -w /app -t vektra/mockery --all --dir ./internal/clients --case underscore
 
 format: ## Format code
 	docker run --rm -ti \

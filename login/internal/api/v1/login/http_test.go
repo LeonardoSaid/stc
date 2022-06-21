@@ -1,15 +1,16 @@
 package login
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
 	"github.com/labstack/echo/v4"
 	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/leonardosaid/stc/accounts/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"net/http"
-	"net/http/httptest"
-	"strings"
-	"testing"
 )
 
 func TestLoginHandler(t *testing.T) {

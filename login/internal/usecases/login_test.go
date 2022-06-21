@@ -3,6 +3,9 @@ package usecases
 import (
 	"context"
 	"errors"
+	"os"
+	"testing"
+
 	"github.com/leonardosaid/stc/accounts/internal/domain"
 	"github.com/leonardosaid/stc/accounts/mocks"
 	mocks2 "github.com/leonardosaid/stc/accounts/mocks/pkg"
@@ -10,11 +13,9 @@ import (
 	"github.com/leonardosaid/stc/accounts/pkg/stc-sdk/session/accounts/payload"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"os"
-	"testing"
 )
 
-func TestLogin(t *testing.T) {
+func TestLoginUseCase(t *testing.T) {
 	ctx := context.TODO()
 
 	password, _ := crypt.HashSecret("secret")
